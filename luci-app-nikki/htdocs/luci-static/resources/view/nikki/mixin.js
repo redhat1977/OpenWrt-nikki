@@ -79,13 +79,27 @@ return view.extend({
         o.value('0', _('Disable'));
         o.value('1', _('Enable'));
 
+        o = s.taboption('general', form.ListValue, 'disable_tcp_keep_alive', _('Disable TCP Keep Alive'));
+        o.optional = true;
+        o.placeholder = _('Unmodified');
+        o.value('0', _('Disable'));
+        o.value('1', _('Enable'));
+
         o = s.taboption('general', form.Value, 'tcp_keep_alive_idle', _('TCP Keep Alive Idle'));
         o.datatype = 'uinteger';
         o.placeholder = _('Unmodified');
-
+        
         o = s.taboption('general', form.Value, 'tcp_keep_alive_interval', _('TCP Keep Alive Interval'));
         o.datatype = 'uinteger';
         o.placeholder = _('Unmodified');
+
+        o = s.taboption('general', form.Value, 'global_client_fingerprint', _('Global Client Fingerprint'));
+        o.placeholder = _('Unmodified');
+        o.value('random', _('Random'));
+        o.value('chrome', 'Chrome');
+        o.value('firefox', 'Firefox');
+        o.value('safari', 'Safari');
+        o.value('edge', 'Edge');
 
         s.tab('external_control', _('External Control Config'));
 
@@ -98,7 +112,8 @@ return view.extend({
 
         o = s.taboption('external_control', form.Value, 'ui_url', _('UI Url'));
         o.placeholder = _('Unmodified');
-        o.value('https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip', 'Zashboard');
+        o.value('https://github.com/Zephyruso/zashboard/releases/latest/download/dist-cdn-fonts.zip', 'Zashboard (CDN Fonts)');
+        o.value('https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip', 'Zashboard');
         o.value('https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip', 'MetaCubeXD');
         o.value('https://github.com/MetaCubeX/Yacd-meta/archive/refs/heads/gh-pages.zip', 'YACD');
         o.value('https://github.com/MetaCubeX/Razord-meta/archive/refs/heads/gh-pages.zip', 'Razord');
@@ -232,9 +247,7 @@ return view.extend({
         o = s.taboption('dns', form.Value, 'fake_ip_range', '*' + ' ' + _('Fake-IP Range'));
         o.datatype = 'cidr4';
         o.placeholder = _('Unmodified');
-        o.retain = true;
         o.rmempty = false;
-        o.depends('dns_mode', 'fake-ip');
 
         o = s.taboption('dns', form.Flag, 'fake_ip_filter', _('Overwrite Fake-IP Filter'));
         o.rmempty = false;
@@ -364,12 +377,14 @@ return view.extend({
         o.rmempty = false;
 
         o = s.taboption('sniffer', form.DynamicList, 'sniffer_force_domain_names', _('Force Sniff Domain Name'));
+        o.retain = true;
         o.depends('sniffer_force_domain_name', '1');
 
         o = s.taboption('sniffer', form.Flag, 'sniffer_ignore_domain_name', _('Overwrite Ignore Sniff Domain Name'));
         o.rmempty = false;
 
         o = s.taboption('sniffer', form.DynamicList, 'sniffer_ignore_domain_names', _('Ignore Sniff Domain Name'));
+        o.retain = true;
         o.depends('sniffer_ignore_domain_name', '1');
 
         o = s.taboption('sniffer', form.Flag, 'sniffer_sniff', _('Overwrite Sniff By Protocol'));
